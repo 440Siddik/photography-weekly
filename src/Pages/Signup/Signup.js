@@ -1,10 +1,11 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import signuplogo from "../../assests/Mobile signup-amico.png";
 import toast from "react-hot-toast";
 import { AuthContext } from "../../AuthProvider/AuthProviderContext";
 const Signup = () => {
   const { createUser, updateUserPofile, verifyEmail } = useContext(AuthContext);
+    const navigate = useNavigate();
   const handleSignup = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -32,6 +33,7 @@ const Signup = () => {
             updateUserPofile(name, imageUrl).then(
               verifyEmail().then(() => {
                 toast.success("Please Check Your Email For Verfication Link");
+                navigate('/login')
               })
             );
           })

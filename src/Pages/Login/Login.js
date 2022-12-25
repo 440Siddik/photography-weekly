@@ -1,11 +1,14 @@
 import { GoogleAuthProvider } from "firebase/auth";
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import loginlogo from "../../assests/Mobile login-amico.png";
 import { AuthContext } from "../../AuthProvider/AuthProviderContext";
 const Login = () => {
   const { login, googleSignin, resetPassword } = useContext(AuthContext);
   const googleProvider = new GoogleAuthProvider();
+    const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from?.pathname || "/";
   const handleLogin = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -14,14 +17,16 @@ const Login = () => {
     //login
     login(email, password).then((result) => {
       const user = result.user;
-      console.log(user);
+       navigate(from, { replace: true });
+      // console.log(user);
     });
   };
   const handleGoogleSignIn = () => {
     googleSignin(googleProvider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+         navigate("/home");
+        // console.log(user);
       })
       .catch((err) => console.log(err));
   };

@@ -22,7 +22,7 @@ const AllServicesCard = ({ als }) => {
         <h2 className="card-title font-extrabold text-2xl">{serviceName}</h2>
         <p className="font-bold">{description.slice(0, 100) + "..."}</p>
         <p className="text-center font-bold">Rating : {rating}</p>
-        <p className="text-center font-bold">Price : {price}</p>
+        <p className="text-center font-bold">Price : ${price}</p>
         <div className="card-actions">
           <Link to={`/service/${_id}`}>
             <button className="btn bg-rose-800 border-none text-white font-semibold">
