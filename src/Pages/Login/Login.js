@@ -1,7 +1,35 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import loginlogo from '../../assests/Mobile login-amico.png'
+import { GoogleAuthProvider } from "firebase/auth";
+import React, { useContext } from "react";
+import { Link } from "react-router-dom";
+import loginlogo from "../../assests/Mobile login-amico.png";
+import { AuthContext } from "../../AuthProvider/AuthProviderContext";
 const Login = () => {
+  const { login, googleSignin, resetPassword } = useContext(AuthContext);
+  const googleProvider = new GoogleAuthProvider();
+  const handleLogin = (event) => {
+    event.preventDefault();
+    const form = event.target;
+    const email = form.email.value;
+    const password = form.password.value;
+    //login
+    login(email, password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
+  };
+  const handleGoogleSignIn = () => {
+    googleSignin(googleProvider)
+      .then((result) => {
+        const user = result.user;
+        console.log(user);
+      })
+      .catch((err) => console.log(err));
+  };
+  const handleResetPass = (email) => {
+    resetPassword(email)
+      .then(() => {})
+      .catch((err) => console.log(err));
+  }
   return (
     <div className="lg:flex w-full px-4 py-4 items-center">
       <div className="lg:w-1/2">
@@ -10,9 +38,15 @@ const Login = () => {
       <div className="lg:w-1/2 lg:ml-[170px] my-4">
         <div className="w-full max-w-md p-8 space-y-3 rounded-xl bg-amber-300">
           <h1 className="text-3xl font-bold text-center">Login</h1>
-          <form className="space-y-6 ng-untouched ng-pristine ng-valid">
+          <form
+            onSubmit={handleLogin}
+            className="space-y-6 ng-untouched ng-pristine ng-valid"
+          >
             <div className="space-y-1 text-sm">
-              <label for="username" className="block text-black">
+              <label
+                htmlFor="username"
+                className="block text-black font-semibold"
+              >
                 Email
               </label>
               <input
@@ -23,7 +57,10 @@ const Login = () => {
               />
             </div>
             <div className="space-y-1 text-sm">
-              <label for="password" className="block text-black">
+              <label
+                htmlFor="password"
+                className="block text-black font-semibold"
+              >
                 Password
               </label>
               <input
@@ -32,10 +69,10 @@ const Login = () => {
                 placeholder="Password"
                 className="w-full px-4 py-3 rounded-md dark:border-gray-700 text-amber-500 font-semibold focus:dark:border-violet-400"
               />
-              {/* <div className="flex justify-end text-xs dark:text-gray-400">
-                <a rel="noopener noreferrer" href="#">
+              {/* <div className="flex justify-end text-xs text-black underline font-semibold">
+                <button onClick={handleResetPass} rel="noopener noreferrer">
                   Forgot Password?
-                </a>
+                </button>
               </div> */}
             </div>
             <button className="block w-full p-3 text-center rounded-sm text-amber-500 font-bold bg-white">
@@ -44,13 +81,17 @@ const Login = () => {
           </form>
           <div className="flex items-center pt-4 space-x-1">
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
-            <p className="px-3 text-sm text-black">
+            <p className="px-3 text-sm text-black font-semibold">
               Login with social account
             </p>
             <div className="flex-1 h-px sm:w-16 dark:bg-gray-700"></div>
           </div>
           <div className="flex justify-center space-x-4">
-            <button aria-label="Log in with Google" className="p-3 rounded-sm">
+            <button
+              onClick={handleGoogleSignIn}
+              aria-label="Log in with Google"
+              className="p-3 rounded-sm"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 32 32"
@@ -60,12 +101,9 @@ const Login = () => {
               </svg>
             </button>
           </div>
-          <p className="text-xs text-center sm:px-6 text-black">
+          <p className="text-xs text-center sm:px-6 text-black font-semibold">
             Don't have an account?
-            <Link
-              to='/signup'
-              className="underline text-violet-600 font-bold"
-            >
+            <Link to="/signup" className="underline text-violet-600 font-bold">
               Sign up
             </Link>
           </p>
