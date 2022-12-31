@@ -7,7 +7,7 @@ import { AuthContext } from "../../AuthProvider/AuthProviderContext";
 const ServiceDetails = () => {
   const serviceDetails = useLoaderData();
   const { _id, img, description, serviceName, rating, price } = serviceDetails;
-  const { user } = useContext(AuthContext);
+  const { user , loading} = useContext(AuthContext);
   const [allreviews, setAllReviews] = useState([]);
   const handleReview = (event) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ const ServiceDetails = () => {
       photo: user?.photoURL,
     };
 
-    fetch(`http://localhost:5000/reviews`, {
+    fetch(`https://photography-weekly-server.vercel.app/reviews`, {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -45,10 +45,26 @@ const ServiceDetails = () => {
   };
 
   useEffect(() => {
-    fetch("http://localhost:5000/allreviews")
+    fetch("https://photography-weekly-server.vercel.app/allreviews")
       .then((res) => res.json())
-      .then((data) => setAllReviews(data));
+      .then((data) => {
+        setAllReviews(data);
+      });
   }, []);
+
+  if(loading){
+    return (
+      <div className="flex justify-center items-center">
+        <div
+          className="spinner-border animate-spin inline-block w-8 h-8 border-4 rounded-full"
+          role="status"
+        >
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="grid lg:grid-cols-2 mx-auto">
       <div className="card w-96 shadow-xl h-[800px] bg-gradient-to-r from-pink-400 to-indigo-700 my-10 ml-4 mx-auto">

@@ -3,8 +3,9 @@ import AllServicesCard from "./AllServicesCard";
 
 const AllServices = () => {
   const [allservices, setAllServices] = useState([]);
+
   useEffect(() => {
-    fetch("http://localhost:5000/allservices")
+    fetch("https://photography-weekly-server.vercel.app/allservices")
       .then((res) => res.json())
       .then((data) => setAllServices(data));
   }, []);

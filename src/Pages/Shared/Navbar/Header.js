@@ -10,6 +10,20 @@ const Header = () => {
         <Link to="/home">Home</Link>
       </li>
       {user?.email ? (
+        <li className="font-semibold text-lg text-success bg-gray-100 rounded-lg border-2 border-b-green-300 lg:mr-4 mb-3">
+          <Link to="/myreviews">My Reviews</Link>
+        </li>
+      ) : (
+        ""
+      )}
+      {user?.email ? (
+        <li className="font-semibold text-lg text-success bg-gray-100 rounded-lg border-2 border-b-green-300 lg:mr-4 mb-3">
+          <Link to="/addservice">Add Service</Link>
+        </li>
+      ) : (
+        ""
+      )}
+      {user?.email ? (
         <li>
           <button
             onClick={logout}

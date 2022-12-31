@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Main from "../Layout/Main";
+import AddService from "../Pages/AddService/AddService";
 import AllServices from "../Pages/AllServices/AllServices";
 import Home from "../Pages/Home/Home";
 import Login from "../Pages/Login/Login";
@@ -34,9 +35,13 @@ export const router = createBrowserRouter([
         element: <AllServices></AllServices>,
       },
       {
+        path: "/addservice",
+        element: <AddService></AddService>,
+      },
+      {
         path: "/service/:id",
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/service/${params.id}`),
+          fetch(`https://photography-weekly-server.vercel.app/service/${params.id}`),
         element: (
           <PrivateRoute>
             <ServiceDetails></ServiceDetails>
